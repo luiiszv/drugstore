@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json()); // Convierte la req.body a un JSON
 
 // Puerto
-app.set("port", 3000);
+app.set("port", process.env.PORT || 3000);
 
 
 
@@ -26,4 +26,5 @@ connectDb(); //Connect the dataBase
 // Escuchar en el puerto
 app.listen(app.get("port"), () => {
   console.log("Listen on the port", app.get("port"));
+
 });

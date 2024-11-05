@@ -4,7 +4,7 @@ const userSchema = new Schema({
     id_user: {
         type: Number,
         required: true,
-        unique: true // Asegura que el ID sea único
+        unique: true 
     },
     name: {
         type: String,
@@ -17,7 +17,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // Asegura que el correo electrónico sea único
+        unique: true, //  correo único
         match: /.+\@.+\..+/ // Validación básica para el formato del correo
     },
     password: {
@@ -30,7 +30,7 @@ const userSchema = new Schema({
     },
     creationDate: {
         type: Date,
-        default: Date.now // Establece la fecha de creación por defecto como la fecha actual
+        default: Date.now //  fecha por defecto 
     },
     active: {
         type: Boolean,
