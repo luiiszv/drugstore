@@ -14,17 +14,12 @@ app.use(express.json()); // Convierte la req.body a un JSON
 // Puerto
 app.set("port", process.env.PORT || 3000);
 
-
-
 // Ruta principal
-app.use("/", userRouter);
-
+app.use("/users", userRouter);
 
 connectDb(); //Connect the dataBase
-
 
 // Escuchar en el puerto
 app.listen(app.get("port"), () => {
   console.log("Listen on the port", app.get("port"));
-
 });
