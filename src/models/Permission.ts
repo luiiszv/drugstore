@@ -1,18 +1,15 @@
 import { model, Schema } from "mongoose";
 
+const PermissionShema = new Schema({
+  module: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "Module",
+  },
+  actions: {
+    type: [String],
+    required: true,
+  },
+});
 
-const permissionShema= new Schema({
-    name: {
-        type: String,
-        require: true,
-        unique: true,
-    },
-    description: {
-        type: String,
-        required: false // Opcional
-    }
-})
-
-export default model('Permission', permissionShema);
-
-
+export default model("Permission", PermissionShema);

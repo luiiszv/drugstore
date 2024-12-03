@@ -8,7 +8,10 @@ import { RolInterface } from "../types/rol.types";
 
 const findRoles = async () => {
   const roles = await RolShema.find();
-  return roles;
+  return {
+    susccess: true,
+    data: roles
+  }
 };
 
 /**
@@ -19,7 +22,10 @@ const findRoles = async () => {
 
 const InsertRoles = async (rol: RolInterface) => {
   const roles = await RolShema.create(rol);
-  return roles;
+  return {
+    success: true,
+    data: roles
+  }
 };
 
 export { findRoles, InsertRoles };

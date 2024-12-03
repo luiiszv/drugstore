@@ -6,7 +6,7 @@ export const registerUsers = async (req: Request, res: Response) => {
 
   try {
     const user = await insertUser(body);
-    res.status(200).json({ message: "User registred", user });
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res
@@ -31,7 +31,7 @@ export const getUserDetail = async (req: Request, res: Response) => {
 export const getAllUsers = async (_req: Request, res: Response) => {
   try {
     const users = await findUsers();
-    res.status(200).json({ users });
+    res.status(200).json( users );
   } catch (error) {
     res
       .status(400)

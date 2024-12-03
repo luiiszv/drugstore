@@ -19,10 +19,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    roles: [{
+    role: [{
         type: Schema.Types.ObjectId, // Relación con la colección "roles"
         ref: "Rol", // Nombre del modelo relacionado
-        required: true
+        required: false
     }],
     creationDate: {
         type: Date,

@@ -2,7 +2,9 @@ import express from "express";
 
 //Routes
 import userRouter from "./routes/users.routes";
-
+import rolesRouter from "./routes/roles.routes";
+import permissionRouter from "./routes/permission.routes";
+import moduleRouter from "./routes/module.routes";
 //Dadabase
 import { connectDb } from "./database/database";
 
@@ -16,6 +18,11 @@ app.set("port", process.env.PORT || 3000);
 
 // Ruta principal
 app.use("/users", userRouter);
+app.use("/roles", rolesRouter);
+app.use('/permissions', permissionRouter);
+app.use('/module', moduleRouter);
+
+
 
 connectDb(); //Connect the dataBase
 

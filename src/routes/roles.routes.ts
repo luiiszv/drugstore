@@ -1,12 +1,9 @@
 import { Router } from "express";
+import { getRoles, registerRoles } from "../controllers/roles.controller";
 
+const router = Router();
 
-
-const router= Router();
-
-
-router.get('/', )
-
-
+router.get("/", getRoles);
+router.post("/", registerRoles);
 
 export default router;

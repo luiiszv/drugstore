@@ -12,7 +12,11 @@ const insertUser = async (user: UserInterface) => {
   const passwordHashed = await hash(user.password, 10);
   const userPassHashed = { ...user, password: passwordHashed };
   const response = await UserModel.create(userPassHashed);
-  return response;
+  return {
+    success: true,
+    message: "User registred",
+    data: response
+  };
 };
 
 /**
@@ -22,7 +26,11 @@ const insertUser = async (user: UserInterface) => {
  */
 const getUser = async (email: string) => {
   const response = await UserModel.findOne({ email });
-  return response;
+  return {
+    success: true,
+    message: "User Found",
+    data: response
+  };
 };
 
 /**
@@ -32,7 +40,10 @@ const getUser = async (email: string) => {
  */
 const findUsers = async () => {
   const response = await UserModel.find();
-  return response;
+  return {
+    success: true,
+    data: response
+  };
 };
 
 /**
@@ -42,6 +53,10 @@ const findUsers = async () => {
  */
 const deleteUser = async (_id: string) => {
   const response = await UserModel.deleteOne({ _id });
-  return response;
+  return {
+    seccess: true,
+    message: "User Deleted",
+    data: response
+  };
 };
 export { insertUser, getUser, findUsers, deleteUser };

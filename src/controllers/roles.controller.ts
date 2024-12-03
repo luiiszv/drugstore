@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { findRoles, InsertRoles } from "../services/rolService";
 
+
 export const getRoles = async (_req: Request, res: Response) => {
   try {
     const response = await findRoles();
