@@ -1,5 +1,6 @@
-import RolShema from "../models/Rol";
 import { RolInterface } from "../types/rol.types";
+import { createRol, getAllRols, findAndDeleteRol } from "../repositories/rolRepository";
+
 /**
  * Consultar Roles
  * @params
@@ -7,11 +8,11 @@ import { RolInterface } from "../types/rol.types";
  */
 
 const findRoles = async () => {
-  const roles = await RolShema.find();
+  const roles = await getAllRols();
   return {
     susccess: true,
-    data: roles
-  }
+    data: roles,
+  };
 };
 
 /**
@@ -21,11 +22,38 @@ const findRoles = async () => {
  */
 
 const InsertRoles = async (rol: RolInterface) => {
-  const roles = await RolShema.create(rol);
-  return {
-    success: true,
-    data: roles
-  }
+
+  const response= await createRol(rol);
+  return response;
+
+
+
+
 };
 
-export { findRoles, InsertRoles };
+/**
+ * Eliminar Roles
+ * @params _id Rol
+ * @returns
+ */
+
+const dropRol = async (_id: string) => {
+  const response = await findAndDeleteRol(_id);
+
+  return {
+    success: true,
+    message: "Rol was deleted",
+    data: response,
+  };
+};
+
+
+/**
+ * Añadir Modulos al Roles
+ * @params _id Rol
+ * @returns
+ */
+
+
+
+export { findRoles, InsertRoles, dropRol };

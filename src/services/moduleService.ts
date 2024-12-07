@@ -1,5 +1,10 @@
-import ModuleShema from "../models/module";
 import { ModuleInterface } from "../types/module.types";
+import {
+  createModule,
+  findModuleByNameOrUrl,
+  findModuleById,
+  getAllModules,
+} from "../repositories/moduleRepository";
 
 /**
  * Consultar Modulos
@@ -7,7 +12,7 @@ import { ModuleInterface } from "../types/module.types";
  * @returns Modules
  */
 const findModules = async () => {
-  const modules = await ModuleShema.find();
+  const modules = await getAllModules();
   return {
     success: true,
     data: modules,
@@ -22,10 +27,7 @@ const findModules = async () => {
 
 const insertModules = async (module: ModuleInterface) => {
   const { name, url } = module;
-  const moduleExist = await ModuleShema.findOne({
-    $or: [{ name }, { url }],
-  });
-
+  const moduleExist = await findModuleByNameOrUrl(name, url);
   if (moduleExist) {
     return {
       success: false,
@@ -33,7 +35,7 @@ const insertModules = async (module: ModuleInterface) => {
     };
   }
 
-  const newMoule = await ModuleShema.create(module);
+  const newMoule = await createModule(module);
 
   return {
     success: true,
@@ -49,11 +51,11 @@ const insertModules = async (module: ModuleInterface) => {
  */
 
 const findModule = async (id_module: string) => {
-  const module = await ModuleShema.findOne({ _id: id_module });
+  const module = await findModuleById(id_module);
   return {
     success: true,
     message: "module found",
-    data: module
+    data: module,
   };
 };
 

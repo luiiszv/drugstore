@@ -1,6 +1,11 @@
-import UserModel from "../models/User";
-import {hash} from "bcrypt";
 import { UserInterface } from "../types/user.types";
+import { hash } from "bcrypt";
+import {
+  getAll,
+  createUser,
+  findUserByEamil,
+  delteOneUser,
+} from "../repositories/userRepository";
 
 /**
  * Registar usuario
@@ -11,11 +16,11 @@ import { UserInterface } from "../types/user.types";
 const insertUser = async (user: UserInterface) => {
   const passwordHashed = await hash(user.password, 10);
   const userPassHashed = { ...user, password: passwordHashed };
-  const response = await UserModel.create(userPassHashed);
+  const response = await createUser(userPassHashed);
   return {
     success: true,
     message: "User registred",
-    data: response
+    data: response,
   };
 };
 
@@ -25,11 +30,11 @@ const insertUser = async (user: UserInterface) => {
  * @returns
  */
 const getUser = async (email: string) => {
-  const response = await UserModel.findOne({ email });
+  const response = await findUserByEamil(email);
   return {
     success: true,
     message: "User Found",
-    data: response
+    data: response,
   };
 };
 
@@ -39,10 +44,10 @@ const getUser = async (email: string) => {
  * @returns Users
  */
 const findUsers = async () => {
-  const response = await UserModel.find();
+  const response = await getAll();
   return {
     success: true,
-    data: response
+    data: response,
   };
 };
 
@@ -52,11 +57,11 @@ const findUsers = async () => {
  * @returns
  */
 const deleteUser = async (_id: string) => {
-  const response = await UserModel.deleteOne({ _id });
+  const response = await delteOneUser(_id);
   return {
     seccess: true,
     message: "User Deleted",
-    data: response
+    data: response,
   };
 };
 export { insertUser, getUser, findUsers, deleteUser };

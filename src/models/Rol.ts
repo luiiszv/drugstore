@@ -6,13 +6,6 @@ const rolSchema = new Schema({
     required: true,
     unique: true, // Cada rol debe ser único
   },
-  permissions: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Permission",
-      required: true,
-    },
-  ],
   description: {
     type: String,
     required: false, // Opcional, para describir el propósito del rol
