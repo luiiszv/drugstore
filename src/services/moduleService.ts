@@ -26,8 +26,14 @@ const findModules = async () => {
  */
 
 const insertModules = async (module: ModuleInterface) => {
-  const { name, url } = module;
-  const moduleExist = await findModuleByNameOrUrl(name, url);
+  const { name, url, parent } = module;
+
+  // búsquedas en paralelo ✔
+  const [moduleExist, parentExist] = await Promise.all([
+    findModuleByNameOrUrl(name, url),
+    parent ? findModuleById(parent) : Promise.resolve(true), // Si no hay parent, retorna true
+  ]);
+
   if (moduleExist) {
     return {
       success: false,
@@ -35,14 +41,23 @@ const insertModules = async (module: ModuleInterface) => {
     };
   }
 
-  const newMoule = await createModule(module);
+  if (!parentExist) {
+    return {
+      success: false,
+      message: "The parent module id does not exist.",
+    };
+  }
+
+  // Crear el módulo una vez validados los datos
+  const newModule = await createModule(module);
 
   return {
     success: true,
     message: "Module created successfully.",
-    data: newMoule,
+    data: newModule,
   };
 };
+
 
 /**
  * Consultar un Modulo

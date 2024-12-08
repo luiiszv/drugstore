@@ -1,12 +1,14 @@
 import express from "express";
+import { config } from "dotenv";
 
 //Routes
 import userRouter from "./routes/users.routes";
 import rolesRouter from "./routes/roles.routes";
 import moduleRouter from "./routes/module.routes";
+import permissionsRouter from "./routes/permissions.routes";
 //Dadabase
 import { connectDb } from "./database/database";
-
+config();
 const app = express();
 
 // Middleware
@@ -19,6 +21,8 @@ app.set("port", process.env.PORT || 3000);
 app.use("/users", userRouter);
 app.use("/roles", rolesRouter);
 app.use('/module', moduleRouter);
+app.use('/permissions', permissionsRouter);
+
 
 
 

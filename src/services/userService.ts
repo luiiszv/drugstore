@@ -1,11 +1,13 @@
 import { UserInterface } from "../types/user.types";
-import { hash } from "bcrypt";
+import { hash, compare } from "bcrypt";
 import {
   getAll,
   createUser,
   findUserByEamil,
   delteOneUser,
 } from "../repositories/userRepository";
+
+import { createAccessToken } from "../libs/jwt";
 
 /**
  * Registar usuario
@@ -64,4 +66,33 @@ const deleteUser = async (_id: string) => {
     data: response,
   };
 };
-export { insertUser, getUser, findUsers, deleteUser };
+
+const loginUser = async (email: string, password: string) => {
+  const userExist = await findUserByEamil(email);
+  if (!userExist) {
+    return {
+      success: false,
+      message: "User not found",
+    };
+  }
+
+  const match = await compare(password, userExist.password);
+  if (!match) {
+    return {
+      success: false,
+      message: "Incorrect Password",
+    };
+  }
+  const payload = {
+    userId: userExist._id,
+    email: userExist.email,
+    roleId: userExist.role,
+  };
+
+  const token = await createAccessToken(payload);
+  return {
+    success: true,
+    token: token,
+  };
+};
+export { insertUser, getUser, findUsers, deleteUser, loginUser };

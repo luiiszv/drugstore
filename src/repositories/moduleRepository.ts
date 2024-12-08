@@ -5,7 +5,7 @@ export const createModule = async (module: ModuleInterface) => {
   return await ModuleShema.create(module);
 };
 
-export const findModuleById = async (_id: string) => {
+export const findModuleById = async (_id: any) => {
   return await ModuleShema.findById(_id);
 };
 

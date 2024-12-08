@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { getUser, insertUser, findUsers } from "../services/userService";
+import {
+  getUser,
+  insertUser,
+  findUsers,
+  loginUser,
+} from "../services/userService";
 
 export const registerUsers = async (req: Request, res: Response) => {
   const { body } = req;
@@ -11,7 +16,7 @@ export const registerUsers = async (req: Request, res: Response) => {
     console.log(error);
     res
       .status(400)
-      .json({ message: "Something was wrong in registerUsers", error });
+      .json({ message: "Something went wrong in registerUsers", error });
   }
 };
 
@@ -24,17 +29,26 @@ export const getUserDetail = async (req: Request, res: Response) => {
     console.log(error);
     res
       .status(400)
-      .json({ message: "Something was wrong in getUserDetail", error });
+      .json({ message: "Something went wrong in getUserDetail", error });
   }
 };
 
 export const getAllUsers = async (_req: Request, res: Response) => {
   try {
     const users = await findUsers();
-    res.status(200).json( users );
+    res.status(200).json(users);
   } catch (error) {
     res
       .status(400)
-      .json({ message: "Something was wrong in getAllUsers", error });
+      .json({ message: "Something went wrong in getAllUsers", error });
+  }
+};
+
+export const login = async ({ body }: Request, res: Response) => {
+  try {
+    const response = await loginUser(body.email, body.password);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ message: "Something went wrong in login", error });
   }
 };

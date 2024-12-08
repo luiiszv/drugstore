@@ -16,3 +16,4 @@ export const findUserByEamil = async (email: string) => {
 export const delteOneUser = async (_id: string) => {
   return await UserModel.deleteOne({ _id });
 };
+

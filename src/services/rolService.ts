@@ -24,7 +24,12 @@ const findRoles = async () => {
 const InsertRoles = async (rol: RolInterface) => {
 
   const response= await createRol(rol);
-  return response;
+  
+  return {
+    success: true,
+    message: "Rol created",
+    data: response,
+  };
 
 
 
