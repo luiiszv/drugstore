@@ -6,9 +6,7 @@ import {
   loginUser,
 } from "../services/userService";
 
-export const registerUsers = async (req: Request, res: Response) => {
-  const { body } = req;
-
+export const registerUsers = async ({ body }: Request, res: Response) => {
   try {
     const user = await insertUser(body);
     res.status(200).json(user);
@@ -20,8 +18,7 @@ export const registerUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserDetail = async (req: Request, res: Response) => {
-  const { body } = req;
+export const getUserDetail = async ({ body }: Request, res: Response) => {
   try {
     const user = await getUser(body);
     res.status(200).json(user);
@@ -46,8 +43,18 @@ export const getAllUsers = async (_req: Request, res: Response) => {
 
 export const login = async ({ body }: Request, res: Response) => {
   try {
-    const response = await loginUser(body.email, body.password);
-    res.status(200).json(response);
+    const { success, token } = await loginUser(
+      body.email,
+      body.password
+    );
+
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    res.status(200).json({ success, token });
   } catch (error) {
     res.status(400).json({ message: "Something went wrong in login", error });
   }

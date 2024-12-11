@@ -35,6 +35,13 @@ const findPermissions = async () => {
   };
 };
 
+
+/**
+ * Find one Permission
+ * @params _idPermission
+ * @returns Permission 😂
+ */
+
 const findOnePermission = async (_id: string) => {
   const response = await findPermissionById(_id);
   return {

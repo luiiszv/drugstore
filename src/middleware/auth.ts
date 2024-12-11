@@ -1,24 +1,50 @@
-// import { Request, Response, NextFunction } from "express";
+import { NextFunction, Response, Request } from "express";
+import jwt from "jsonwebtoken";
+import { jwtData } from "../types/express";
 
-// import {verify} from "jsonwebtoken";
-// import User from "../models/User";
+const validateToken = (token: string) => {
+  try {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error("No hay secreto en .env");
+    }
+    const decodedToken = jwt.verify(token, secret) as jwtData;
 
-// export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-//     const token = req.headers['authorization'];
-//     if(!token) return res.status(403).json({message: 'No Token'});
+    return decodedToken;
+  } catch (error) {
+    return null;
+  }
+};
 
+export const authMiddleware = (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  try {
+    const authorization =
+      req.headers.authorization || req.headers["cookie"]?.split("=")[1];
 
-//     const jwt = verify(token, process.env.JWT_SECRET as string, async (err, decoded: any) => {
-//         if (err) return res.status(401).json({ message: 'Unauthorized' });
-           
-//         req.userId = decoded.id_user;
-//         next();
-//     });
+    if (!authorization) {
+       _res.status(401).json({ error: "Token no proporcionado" });
+       return
+    }
 
-//     return 
+    const validation = validateToken(authorization);
 
+    if (validation === null){
 
-    
+      _res.status(401).json({ message: "Access Denied" });
+      return
+    }
+    req.user = validation;
 
+    return next();
+  } catch (error) {
+    _res
+      .status(500)
+      .json({ error: "Error interno en el middleware de autenticación" });
 
-// };
+      return
+  }
+};

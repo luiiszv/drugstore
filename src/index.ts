@@ -8,6 +8,8 @@ import moduleRouter from "./routes/module.routes";
 import permissionsRouter from "./routes/permissions.routes";
 //Dadabase
 import { connectDb } from "./database/database";
+
+
 config();
 const app = express();
 
@@ -16,6 +18,8 @@ app.use(express.json()); // Convierte la req.body a un JSON
 
 // Puerto
 app.set("port", process.env.PORT || 3000);
+
+
 
 // Ruta principal
 app.use("/users", userRouter);

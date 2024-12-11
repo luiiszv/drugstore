@@ -67,6 +67,12 @@ const deleteUser = async (_id: string) => {
   };
 };
 
+/**
+ * Login user
+ * @params email, password
+ * @returns token
+ */
+
 const loginUser = async (email: string, password: string) => {
   const userExist = await findUserByEamil(email);
   if (!userExist) {
